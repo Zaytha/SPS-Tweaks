@@ -1,7 +1,8 @@
 {
   "name": "com.zaytha.sps-tweaks.Editor",
   "references": [
-    "com.zaytha.sps-tweaks"
+    "com.zaytha.sps-tweaks",
+    "com.vrcfury.vrcfury"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],
