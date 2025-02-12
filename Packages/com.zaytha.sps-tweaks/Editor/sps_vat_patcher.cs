@@ -84,7 +84,7 @@ public class VATSPSPatcher
                 "sps_main.cginc is not in the expected form and has not been patched.\nZaytha SPS Tweaks needs to be updated.", 
                 "OK"
             );
-            Debug.LogError("sps_main.cginc not in the expected form and has not been patched. \nZaytha SPS Tweaks needs to be updated. \n \nIf it's up to date, the patcher needs to be fixed and will be updated soon.");
+            Debug.LogError("sps_main.cginc not in the expected form and has not been patched.\n-----------------------------------------------Zaytha SPS Tweaks needs to be updated.\nIf it's up to date, the patcher needs to be fixed and will be updated soon.");
             return;
         }
 
