@@ -13,15 +13,68 @@
       background-size: 300px 150px;c
     }
   </style>
+
+<style>
+  .bannerContainer {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: auto;
+  }
+  .bannerImage {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .overlayImage {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    width: 25%;
+    opacity: 0.5;
+  }
+  .overlayImage2 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 10;
+    width: 40%;
+    opacity: 0.1;
+  }
+</style>
+
+
 </head>
 <body>
   <div class="col align-items-center content">
+
+    <p>
+      <a>
+        <img src= "./images/unmute_me.gif" width="180">
+      </a>
+        <img src= "./images/if.gif" width="200">
+      </a>
+      <a href="https://sexfm.live/">
+        <img src= "./images/ilovesexfm.gif" width="150"
+            alt="I LOVE SEX FM!!!!!">
+      </a>
+    </p>
+
+
+    <div class="audio-player" style="text-align: center; margin-top: 20px;">
+      <audio controls autoplay muted>
+        <source src="https://streaming.live365.com/a25222" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
     <div id="listingInfo" class="col mb-4 w-100 align-items-center">
-      <p>
-        <img src= "./images/technology.htm_cmp_zero110_bnr.gif">
-      </p>
       {{~ if listingInfo.BannerImage; ~}}
-        <div class="bannerImage" style="background-image: url('./images/newimage.png')"></div>
+        <div class="bannerContainer">
+          <div class="bannerImage" style="background-image: url('./images/newimage.png'); width: 100%; height: auto;"></div>
+          <img class="overlayImage" src="./images/homepage.jpg" alt="Overlay Image">
+          <img class="overlayImage2" src="./images/BANR092S.JPG" alt="Overlay Image">
+        </div>
       {{~ end; ~}}
       <h1>
         {{~ listingInfo.Name ~}}
