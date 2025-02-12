@@ -1,0 +1,16 @@
+{
+  "name": "com.zaytha.sps-tweaks",
+  "displayName": "Zaytha's SPS Tweaks",
+  "version": "0.0.1",
+  "description": "Adds VATs to SPS",
+  "gitDependencies": {},
+  "vpmDependencies": {},
+  "author": {
+    "name": "Zaytha",
+    "email": "support@zaytha.com",
+    "url": "zaytha.com"
+  },
+  "legacyFolders": {},
+  "legacyFiles": {},
+  "localPath": "/run/media/zaytha/CrossBootDrive/CrossBootProjects/UnityProjects/SPS-Tweaks/Packages/com.zaytha.sps-tweaks"
+}

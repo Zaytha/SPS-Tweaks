@@ -1,0 +1,14 @@
+{
+  "name": "com.zaytha.sps-tweaks.Editor",
+  "references": [
+    "com.zaytha.sps-tweaks"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "autoReferenced": true,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "defineConstraints": [],
+  "optionalUnityReferences": []
+}
