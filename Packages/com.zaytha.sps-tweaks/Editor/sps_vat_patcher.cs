@@ -73,7 +73,6 @@ public class VATSPSPatcher
             File.WriteAllText(target_script_path, patch_content);
             AssetDatabase.Refresh(); // Refresh Unity to apply changes
             Debug.Log("Shader patch applied successfully!");
-            EditorUtility.DisplayDialog("Patch Success", "sps_main.cginc has been successfully patched!", "OK");
             return;
         }
 
@@ -82,10 +81,10 @@ public class VATSPSPatcher
         {
             EditorUtility.DisplayDialog(
                 "Patch Error", 
-                "sps_main.cginc is not patched and not in the expected form.\nZaytha SPS Patcher may need an update.", 
+                "sps_main.cginc is not patched and not in the expected form.\nZaytha SPS Tweaks needs to be updated.", 
                 "OK"
             );
-            Debug.LogError("sps_main.cginc is not patched, and not in the expected form. Zaytha SPS Patcher needs to be updated.");
+            Debug.LogError("sps_main.cginc is not patched, and not in the expected form. Zaytha SPS Tweaks needs to be updated. \n \nIf it's up to date, the patcher needs to be fixed and will be updated soon.");
             return;
         }
 
