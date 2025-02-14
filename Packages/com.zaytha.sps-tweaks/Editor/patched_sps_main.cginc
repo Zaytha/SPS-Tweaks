@@ -15,11 +15,11 @@ void sps_apply_real(inout float3 vertex, inout float3 normal, inout float4 tange
 	float3 bakedNormal;
 	float3 bakedTangent;
 	float active;
-	SpsGetBakedPosition(vertexId, bakedVertex, bakedNormal, bakedTangent, active, worldLength * 2);
+	SpsGetBakedPosition(vertexId, bakedVertex, bakedNormal, bakedTangent, active);
 
     // test if VATs are supported, and trigger them if so
 	#if defined(POI_VAT)
-		applyVertexAnimationTexture_real(bakedVertex, bakedNormal, bakedTangent, uv);
+		applyVertexAnimationTexture_real(bakedVertex, bakedNormal, bakedTangent, uv, worldLength * 2);
 	#endif
 
 	if (active == 0) return;
