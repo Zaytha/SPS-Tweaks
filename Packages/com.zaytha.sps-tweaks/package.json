@@ -1,7 +1,7 @@
 {
   "name": "com.zaytha.sps-tweaks",
   "displayName": "Zaytha's SPS Tweaks",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Adds VATs to SPS",
   "gitDependencies": {},
   "vpmDependencies": {},

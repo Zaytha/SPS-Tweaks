@@ -5,7 +5,7 @@
 #include "sps_utils.cginc"
 
 // SPS Penetration Shader
-void sps_apply_real(inout float3 vertex, inout float3 normal, inout float4 tangent, uint vertexId, inout float4 color, float2 uv)
+void sps_apply_real(inout float3 vertex, inout float3 normal, inout float4 tangent, uint vertexId, inout float4 color, in float2 uv)
 {
 	const float worldLength = _SPS_Length;
 	const float3 origVertex = vertex;
@@ -156,9 +156,6 @@ void sps_apply(inout SpsInputs o) {
 	
 	// When VERTEXLIGHT_ON is missing, there are no lights nearby, and the 4light arrays will be full of junk
 	// Temporarily disable this check since apparently it causes some passes to not apply SPS
-
-	// Zaytha's SPS Tweaks adds the second uv channel (o.uv1, 0 indexed) for Vertex Aniamtion Textures
-
 	//#ifdef VERTEXLIGHT_ON
 	sps_apply_real(
 		o.SPS_STRUCT_POSITION_NAME.xyz,
@@ -174,7 +171,7 @@ void sps_apply(inout SpsInputs o) {
 		#else
 			o.SPS_STRUCT_COLOR_NAME,
 		#endif
-		o.uv1
+		o.uv1 // Zaytha's SPS Tweaks adds the second uv channel (0 index) for Vertex Aniamtion Textures
 	);
 	//#endif
 
