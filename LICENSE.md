@@ -60,7 +60,7 @@ goals above.
 
 # Zaytha Tweaks
 
-# The following licenses only applies to the files added as part of SPS-Tweaks, and not the entirety of VRCFury
+The following licenses only applies to the files added as part of SPS-Tweaks, and not the entirety of VRCFury
 
 ```
 The changes made in this contribution are free and unencumbered software
