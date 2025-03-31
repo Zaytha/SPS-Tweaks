@@ -5,6 +5,9 @@
   "unity": "2022.3",
   "description": "Adds VATs to SPS",
   "vrchatVersion": "2022.1.1",
+  "vpmDependencies": {
+    "com.vrcfury.vrcfury": ">=1.1218.0"
+  },
   "author": {
     "name": "Zaytha",
     "email": "support@zaytha.com",
