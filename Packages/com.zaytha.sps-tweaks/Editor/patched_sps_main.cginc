@@ -17,7 +17,7 @@ void sps_apply_real(inout float3 vertex, inout float3 normal, inout float4 tange
 	float active;
 	SpsGetBakedPosition(vertexId, bakedVertex, bakedNormal, bakedTangent, active);
 
-    /// Zaytha's SPS Tweaks checks if VATs are included, and calls the function before the bezier is applied.
+    // Zaytha's SPS Tweaks checks if VATs are included, and calls the function before the bezier is applied.
 	#if defined(POI_VAT)
 		applyVertexAnimationTexture_real(bakedVertex, bakedNormal, bakedTangent, uv, worldLength);
 	#endif
