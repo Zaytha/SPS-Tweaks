@@ -7,12 +7,69 @@
   <script type="module" src="https://unpkg.com/@fluentui/web-components"></script>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="./favicon.ico">
+  <style>
+    body{
+      background-image: url('./images/starsparkle.gif');
+      background-size: 300px 150px;
+    }
+  </style>
+
+<style>
+  .bannerContainer {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: auto;
+  }
+  .bannerImage {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .overlayImage {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    width: 25%;
+    opacity: 0.5;
+  }
+  .overlayImage2 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 10;
+    width: 40%;
+    opacity: 0.1;
+  }
+</style>
+
+
 </head>
 <body>
   <div class="col align-items-center content">
+
+    <p>
+      <a>
+        <img src= "./images/unmute_me.gif" width="180">
+      </a>
+        <img src= "./images/if.gif" width="200">
+      </a>
+    </p>
+
+
+    <div class="audio-player" style="text-align: center; margin-top: 20px;">
+      <audio controls autoplay muted>
+        <source src="images/totally_a_midi_file_yeah_bro.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
     <div id="listingInfo" class="col mb-4 w-100 align-items-center">
       {{~ if listingInfo.BannerImage; ~}}
-        <div class="bannerImage" style="background-image: url({{ listingInfo.BannerImageUrl }})"></div>
+        <div class="bannerContainer">
+          <div class="bannerImage" style="background-image: url('./images/newimage.png'); width: 100%; height: auto;"></div>
+          <img class="overlayImage" src="./images/homepage.jpg" alt="Overlay Image">
+          <img class="overlayImage2" src="./images/BANR092S.JPG" alt="Overlay Image">
+        </div>
       {{~ end; ~}}
       <h1>
         {{~ listingInfo.Name ~}}
@@ -60,7 +117,7 @@
             <svg class="me-2" style="fill: var(--neutral-foreground-rest)" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path d="M4 4V16C4 17.1046 4.89543 18 6 18H15.5C15.7761 18 16 17.7761 16 17.5C16 17.2239 15.7761 17 15.5 17H6C5.44772 17 5 16.5523 5 16H15C15.5523 16 16 15.5523 16 15V4C16 2.89543 15.1046 2 14 2H6C4.89543 2 4 2.89543 4 4ZM14 3C14.5523 3 15 3.44772 15 4V15H5V4C5 3.44772 5.44772 3 6 3H14ZM8.76069 6.40877C8.95015 6.21142 9.31074 6 10 6C10.6893 6 11.0499 6.21142 11.2393 6.40877C11.4409 6.61877 11.5 6.86546 11.5 7C11.5 7.4539 11.2301 7.69835 10.7773 7.92363C10.6657 7.97916 10.552 8.02883 10.4343 8.0797L10.4116 8.08953C10.3056 8.13534 10.1902 8.18521 10.088 8.23655C9.98257 8.28953 9.85193 8.36283 9.7433 8.46505C9.62799 8.57355 9.5 8.75189 9.5 9V9.99999C9.5 10.2761 9.72386 10.5 10 10.5C10.2761 10.5 10.5 10.2753 10.5 9.99918V9.1493C10.5111 9.14333 10.5234 9.13694 10.537 9.13009C10.6125 9.09217 10.703 9.05302 10.8197 9.00257L10.8313 8.99753C10.948 8.94704 11.0843 8.8878 11.2227 8.81894C11.7699 8.5467 12.5 8.0461 12.5 7C12.5 6.63454 12.3591 6.13123 11.9607 5.71623C11.5501 5.28858 10.9107 5 10 5C9.08926 5 8.44985 5.28858 8.03931 5.71623C7.64091 6.13123 7.5 6.63454 7.5 7C7.5 7.27614 7.72386 7.5 8 7.5C8.27614 7.5 8.5 7.27614 8.5 7C8.5 6.86546 8.55909 6.61877 8.76069 6.40877ZM10 13C10.4142 13 10.75 12.6642 10.75 12.25C10.75 11.8358 10.4142 11.5 10 11.5C9.58579 11.5 9.25 11.8358 9.25 12.25C9.25 12.6642 9.58579 13 10 13Z" />
             </svg>
-            <h3 class="m-0">How to add this listing to your VCC</h3> 
+            <h3 class="m-0">How to add this listing to your VCC</h3>
           </div>
           <fluent-button appearance="stealth" id="addListingToVccHelpClose">
             <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -97,6 +154,9 @@
     <div class="searchBlock">
       <fluent-text-field id="searchInput" placeholder="Search packages..." type="text" autoFocus></fluent-text-field>
     </div>
+    <p>
+      <img src= "./images/tumblr_1a4e00679210fa8d42dc83dd59839af0_4e11bca7_640.gif">
+    </p>
     <fluent-menu id="rowMoreMenu" hidden>
       <fluent-menu-item id="rowMoreMenuDownload">
         <svg slot="start" width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -210,11 +270,127 @@
         {{~ end ~}}
       </fluent-data-grid>
     </fluent-card>
+    
     {{~ if listingInfo.InfoLink.Url ~}}
       <div class="caption1" id="publishedByText">
         <a href="{{listingInfo.InfoLink.Url}}" target="_blank">{{ if listingInfo.InfoLink.Text; listingInfo.InfoLink.Text; else; "Lean More"; end; }}</a>
       </div>
     {{~ end; ~}}
+    <footer>
+      <br>
+      <p>
+        <img src= "./images/dancing_skeleton4.gif">
+      </p>
+      <p>
+        <a href="https://zzkillme.bandcamp.com/album/--3">
+          <img src= "./images/a1248495175_10.jpg" width="200"
+              alt="catcore my belvoedddd">
+        </a>
+        <a href="https://llnothingll.bandcamp.com/album/scars">
+          <img src= "./images/scars_pic.jpg" width="200">
+        </a>
+        <a href="https://windows96.bandcamp.com/album/one-hundred-mornings">
+          <img src= "./images/w96.jpg" width="200"
+              alt="my most listened to album like 6 years in a row lol">
+        </a>
+      </p>
+
+      <p>
+        <a href="https://pilotredsky.bandcamp.com/album/promenade-ep">
+          <img src= "./images/prs.jpg" width="200"
+              alt="buh du DOOOOU DOU DA">
+        </a>
+        <a href="https://cojumdip.bandcamp.com/album/cojum-dip">
+          <img src= "./images/cojumdip.jpg" width="200"
+              alt="catcore my belvoedddd">
+        </a>
+          <img src= "./images/avatar pfp.png" width="200">
+        </a>
+      </p>
+
+      <p>
+        <a href="https://hucknyc.bandcamp.com/album/huck">
+          <img src= "./images/huck.jpg" width="200"
+              alt="CRIMINALLY UNDERATED">
+        </a>
+        <img src= "./images/Screenshot_20250212_070942.png" width="200">
+        <a href="https://topazzz.bandcamp.com/track/turn-around">
+          <img src= "./images/topz.jpg" width="200"
+              alt="I think this is the first ever piece of music I bought. Would've been in 2016">
+        </a>
+        
+      </p>
+
+      <p>
+        <a href="https://www.youtube.com/watch?v=qENPIoqMYoE&list=OLAK5uy_lsREF-8Mbd_6uyqzgXpDixELmqG0XCDnw">
+          <img src= "./images/mustard.jpg" width="200">
+        </a>
+        <a href="https://thatbandofhers.bandcamp.com/album/invitation-to-hers">
+          <img src= "./images/hers.jpg" width="200">
+        </a>
+        <a href="https://gingerroot.bandcamp.com/album/rikki">
+          <img src= "./images/rikiki.jpg" width="200">
+        </a>
+      </p>
+
+      <p>
+        <a href="https://homeshake.bandcamp.com/album/fresh-air">
+          <img src= "./images/a1002491322_16.jpg" width="200">
+        </a>
+        <a href="https://willwoodmusic.bandcamp.com/album/the-normal-album-2019-mix">
+          <img src= "./images/a3825010250_16.jpg" width="200">
+        </a>
+        <a href="https://www.youtube.com/watch?v=6I3R_dRJjvg&list=OLAK5uy_nUqeXp6s1pp2wipwAOYhGiUuAlMFnhC0U">
+          <img src= "./images/ab67616d0000b273441537eec4024d44c8acdbd2.jpg" width="200">
+        </a>
+      </p>
+
+      <p>
+        <a href="https://flyinglotus.bandcamp.com/album/youre-dead-deluxe-edition">
+          <img src= "./images/a2262334723_16.jpg" width="200">
+        </a>
+        <a href="https://austinweber.bandcamp.com/album/d-42">
+          <img src= "./images/a2629622163_16.jpg" width="200">
+        </a>
+        <a href="https://exocietymusic.bandcamp.com/album/ramona">
+          <img src= "./images/ramona.jpg" width="200">
+        </a>
+      </p>
+
+      <p>
+        <img src= "./images/asefash.png" width="200">
+        <a href="https://lightningbolt.bandcamp.com/album/wonderful-rainbow">
+          <img src= "./images/a4162878537_16.jpg" width="200">
+        </a>
+        <a href="https://saintpepsi.bandcamp.com/album/hit-vibes">
+          <img src= "./images/a1757771787_16.jpg" width="200">
+        </a>
+      </p>
+
+      
+
+
+
+      <p>
+        <img src= "./images/rainbow_line.gif">
+      </p>
+      <p>
+        <a href="https://sexfm.live/">
+          <img src= "./images/ilovesexfm.gif"
+              alt="I LOVE SEX FM!!!!!">
+        </a>
+        <a href="https://sexfm.live/">
+          <img src= "./images/djtolerant.png"
+              alt="I LOVE SEX FM!!!!!">
+        </a>
+      </p>
+      <p>
+        <img src= "./images/finfin.gif" width="150px">
+        <img src= "./images/blinkiescafe-q7.gif" width="150px">
+        <img src= "./images/ilymyfriends.gif" width="150px">
+        <img src= "./images/penis.png" width="150px">
+      </p>
+    </footer>
   </div>
   <script type="module" src="app.js"></script>
 </body>
