@@ -1,15 +1,13 @@
 {
   "name": "com.zaytha.sps-tweaks",
   "displayName": "Zaytha's SPS Tweaks",
-  "version": "0.0.19",
+  "version": "0.0.20",
+  "unity": "2022.3",
   "description": "Adds VATs to SPS",
-  "gitDependencies": {},
-  "vpmDependencies": {},
+  "vrchatVersion": "2022.1.1",
   "author": {
     "name": "Zaytha",
     "email": "support@zaytha.com",
-    "url": "zaytha.com"
-  },
-  "legacyFolders": {},
-  "legacyFiles": {}
+    "url": "https://zaytha.com"
+  }
 }
