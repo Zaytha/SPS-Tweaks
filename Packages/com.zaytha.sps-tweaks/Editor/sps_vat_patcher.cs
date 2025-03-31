@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Callbacks;
 using System.IO;
@@ -18,7 +19,7 @@ public class VATSPSPatcher
 
     static VATSPSPatcher()
     {
-        // Gets called when editor goes into playmode
+        // called when editor goes into playmode
         EditorApplication.playModeStateChanged += OnPlayModeChanged;
     }
 
@@ -32,24 +33,24 @@ public class VATSPSPatcher
 
     private static void PatchSPS()
     {
-        // Ensure all necessary files exist, show popups if missing
+        // check all needed files exist, show popups if missing
         if (!File.Exists(expected_sps_path))
         {
-            EditorUtility.DisplayDialog("Patch Error", "Expected SPS script not found in:\n" + expected_sps_path, "OK");
+            EditorUtility.DisplayDialog("Patch Error", "Expected SPS script not found in:\n" + expected_sps_path + "\n\nPlease re-install Zaytha's SPS-Tweaks", "OK");
             Debug.LogError("Expected SPS script not found in: " + expected_sps_path);
             return;
         }
 
         if (!File.Exists(patched_sps_path))
         {
-            EditorUtility.DisplayDialog("Patch Error", "Patched SPS script not found in:\n" + patched_sps_path, "OK");
+            EditorUtility.DisplayDialog("Patch Error", "Patched SPS script not found in:\n" + patched_sps_path + "\n\nPlease re-install Zaytha's SPS-Tweaks", "OK");
             Debug.LogError("Patched SPS script not found in: " + patched_sps_path);
             return;
         }
         
         if (!File.Exists(target_script_path))
         {
-            EditorUtility.DisplayDialog("Patch Error", "Target SPS script not found in:\n" + target_script_path, "OK");
+            EditorUtility.DisplayDialog("Patch Error", "Target SPS script not found in:\n" + target_script_path + "\n\nMake sure VRCFury is installed", "OK");
             Debug.LogError("Target SPS script not found in: " + target_script_path);
             return;
         }
@@ -58,15 +59,14 @@ public class VATSPSPatcher
         string patch_content = File.ReadAllText(patched_sps_path);
         string target_content = File.ReadAllText(target_script_path);
 
-        // Already patched, exit
+        // already patched, do nothing
         if (target_content == patch_content)
         {
             Debug.Log("sps_main.cginc is already patched.");
             return;
         }
 
-        // Ready to patch
-        // ah
+        // All expetec content matches, do patching process
         else if (target_content == expected_content)
         {
             Debug.Log("Patching sps_main.cginc...");
@@ -76,12 +76,12 @@ public class VATSPSPatcher
             return;
         }
 
-        // Unexpected discrepancy
+        // sps_main is different from what we expected, this mostly likely means SPS has been updated.
         else if (target_content != expected_content && target_content != patch_content)
         {
             EditorUtility.DisplayDialog(
                 "Patch Error", 
-                "sps_main.cginc not in the expected form and has not been patched.\n-----------------------------------------------\nZaytha's SPS Tweaks needs to be updated.\nIf it's up to date, the patcher needs to be fixed and will be updated soon.", 
+                "DO NOT REPORT THIS ERROR TO VRCFURY!!!\nsps_main.cginc not in the expected form and has not been patched.\n-----------------------------------------------\n\nZaytha's SPS Tweaks needs to be updated to the latest version.\nIf it is on the latest version, sps has been updated and the patcher needs to be fixed to match that and will be updated soon.\n\nUntil the update is out, you can uninstall Zaytha's SPS Tweaks and the model will still work w/o the added features.", 
                 "OK"
             );
             Debug.LogError("sps_main.cginc not in the expected form and has not been patched.Zaytha SPS Tweaks needs to be updated. If it's up to date, the patcher needs to be fixed and will be updated soon.");
@@ -90,10 +90,11 @@ public class VATSPSPatcher
 
         else 
         {
-            EditorUtility.DisplayDialog("Patch Error", "Something has gone terribly wrong.", "OK");
-            Debug.LogError("Something has gone terribly wrong.");
+            EditorUtility.DisplayDialog("Patch Error", "DO NOT REPORT THIS ERROR TO VRCFURY!!!\nUnexpected error with Zaytha's SPS Tweaks.", "OK");
+            Debug.LogError("Unexpected error with Zaytha's SPS Tweaks.");
             return;
         }
     }
 
 }
+#endif

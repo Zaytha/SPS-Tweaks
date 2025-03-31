@@ -17,9 +17,9 @@ void sps_apply_real(inout float3 vertex, inout float3 normal, inout float4 tange
 	float active;
 	SpsGetBakedPosition(vertexId, bakedVertex, bakedNormal, bakedTangent, active);
 
-    // test if VATs are supported, and trigger them if so
+    /// Zaytha's SPS Tweaks checks if VATs are included, and calls the function before the bezier is applied.
 	#if defined(POI_VAT)
-		applyVertexAnimationTexture_real(bakedVertex, bakedNormal, bakedTangent, uv, worldLength * 2);
+		applyVertexAnimationTexture_real(bakedVertex, bakedNormal, bakedTangent, uv, worldLength);
 	#endif
 
 	if (active == 0) return;
@@ -156,6 +156,9 @@ void sps_apply(inout SpsInputs o) {
 	
 	// When VERTEXLIGHT_ON is missing, there are no lights nearby, and the 4light arrays will be full of junk
 	// Temporarily disable this check since apparently it causes some passes to not apply SPS
+
+	// Zaytha's SPS Tweaks adds the second uv channel (o.uv1, 0 indexed) for Vertex Aniamtion Textures
+
 	//#ifdef VERTEXLIGHT_ON
 	sps_apply_real(
 		o.SPS_STRUCT_POSITION_NAME.xyz,
