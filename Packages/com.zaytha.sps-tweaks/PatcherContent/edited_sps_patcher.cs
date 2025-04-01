@@ -93,10 +93,10 @@ namespace VF.Builder.Haptics {
             }
 
             string spsMain;
-            if (shader.name.Contains("Poiyomi Toon VAT"))
+            if (shader.name.Contains("VertexAnimationTexture"))
             {
-                // Sepcial case for Poiyomi VATs, some shaders would opperate noramlly, but some would fail to compile
-                // if they don't have a second uv channel, so only use the patch for the VAT shader
+                // Sepcial case for shdaers with VATs support, some shaders w/o support would opperate noramlly, but some would fail to compile
+                // if they don't have a second uv channel, so only use the patch for the VAT shaders
                 if (keepImports) {
                 spsMain = $"#include \"{pathToSps}/sps_main_vat_patch.cginc\"";
                 } else {

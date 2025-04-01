@@ -72,7 +72,7 @@ public class VATSPSPatcher
         if (!File.Exists(target_pathcer_file_path))
         {
             EditorUtility.DisplayDialog("Patch Error", "Target SpsPatcher.cs script not found in:\n" + target_pathcer_file_path + "\n\nMake sure VRCFury is installed", "OK");
-            Debug.LogError("Target SpsPAtcher.cs script not found in: " + target_pathcer_file_path);
+            Debug.LogError("Target SpsPatcher.cs script not found in: " + target_pathcer_file_path);
             return;
         }
 
