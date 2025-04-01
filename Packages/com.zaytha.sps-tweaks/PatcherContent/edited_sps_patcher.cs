@@ -13,33 +13,6 @@ using VF.Builder.Exceptions;
 using VF.Inspector;
 using VF.Utils;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 namespace VF.Builder.Haptics {
     internal static class SpsPatcher {
         private const string HashBuster = "13";
@@ -47,8 +20,6 @@ namespace VF.Builder.Haptics {
         public static void Patch(Material mat, bool keepImports) {
             if (!mat.shader) return;
             try {
-                EditorUtility.DisplayDialog("Begging on my paws and knees", mat.shader.name + " - " + mat.shader + " - " + mat, "OK");
-                Debug.LogError("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 var renderQueue = mat.renderQueue;
                 PatchUnsafe(mat, keepImports);
                 mat.renderQueue = renderQueue;
@@ -82,6 +53,7 @@ namespace VF.Builder.Haptics {
             public int patchedPrograms;
         }
         private static PatchResult PatchUnsafe(Shader shader, bool keepImports, string parentHash = null) {
+            
             var testMat = new Material(shader);
             VrcfObjectFactory.Register(testMat);
             for (int i = 0; i < testMat.passCount; i++) {
@@ -121,11 +93,23 @@ namespace VF.Builder.Haptics {
             }
 
             string spsMain;
-            if (keepImports) {
-                spsMain = $"#include \"{pathToSps}/sps_main.cginc\"";
+            if (shader.name.Contains("Poiyomi Toon VAT"))
+            {
+                // Sepcial case for Poiyomi VATs, some shaders would opperate noramlly, but some would fail to compile
+                // if they don't have a second uv channel, so only use the patch for the VAT shader
+                if (keepImports) {
+                spsMain = $"#include \"{pathToSps}/sps_main_vat_patch.cginc\"";
+                } else {
+                    spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main_vat_patch.cginc");
+                }
             } else {
-                spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main.cginc");
+                if (keepImports) {
+                spsMain = $"#include \"{pathToSps}/sps_main.cginc\"";
+                } else {
+                    spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main.cginc");
+                }
             }
+            
             
             var md5 = MD5.Create();
             var hashContent = contents + spsMain + HashBuster;
