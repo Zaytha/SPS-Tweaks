@@ -31,7 +31,7 @@ public class VATSPSPatcher
     {
         EditorUtility.DisplayDialog(
             "Zaytha SPS Tweaks", 
-            "!!THE PATCH HAS NOT BEEN REMOVED, YOU MUST DO IT MANUALLY!!\n\nTo remove this patch:\n-Uninstall Zaytha's SPS Tweaks and VRCFury through VCC\n-Foucs the unity window (to load the deletion).\n-Reinstall VRCFury through VCC", 
+            "!!THE PATCH HAS NOT BEEN REMOVED, YOU MUST DO IT MANUALLY!!\n\nTo remove this patch:\n-Uninstall Zaytha's SPS Tweaks and VRCFury through VCC\n-Reinstall VRCFury through VCC", 
             "Got it."
         );
     }
