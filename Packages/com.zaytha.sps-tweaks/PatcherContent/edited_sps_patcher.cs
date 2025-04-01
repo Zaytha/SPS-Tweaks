@@ -93,18 +93,17 @@ namespace VF.Builder.Haptics {
             }
 
             string spsMain;
-            if (shader.name.Contains("VertexAnimationTexture"))
-            {
+            if (shader.name.Contains("VertexAnimationTexture")) {
                 // Sepcial case for shdaers with VATs support, some shaders w/o support would opperate noramlly, but some would fail to compile
                 // if they don't have a second uv channel, so only use the patch for the VAT shaders
                 if (keepImports) {
-                spsMain = $"#include \"{pathToSps}/sps_main_vat_patch.cginc\"";
+                    spsMain = $"#include \"{pathToSps}/sps_main_vat_patch.cginc\"";
                 } else {
                     spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main_vat_patch.cginc");
                 }
             } else {
                 if (keepImports) {
-                spsMain = $"#include \"{pathToSps}/sps_main.cginc\"";
+                    spsMain = $"#include \"{pathToSps}/sps_main.cginc\"";
                 } else {
                     spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main.cginc");
                 }
