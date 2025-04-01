@@ -5,7 +5,7 @@
 #include "sps_utils.cginc"
 
 // SPS Penetration Shader
-void sps_apply_real(inout float3 vertex, inout float3 normal, inout float4 tangent, uint vertexId, inout float4 color)
+void sps_apply_real(inout float3 vertex, inout float3 normal, inout float4 tangent, uint vertexId, inout float4 color, in float2 uv)
 {
 	const float worldLength = _SPS_Length;
 	const float3 origVertex = vertex;
@@ -16,6 +16,10 @@ void sps_apply_real(inout float3 vertex, inout float3 normal, inout float4 tange
 	float3 bakedTangent;
 	float active;
 	SpsGetBakedPosition(vertexId, bakedVertex, bakedNormal, bakedTangent, active);
+
+    // Zaytha's SPS Tweaks
+	// SpsPatcher.cs makes sure to only use this file one VAT shaders that are setup to recieve this call
+	applyVertexAnimationTexture_real(bakedVertex, bakedNormal, bakedTangent, uv, worldLength);
 
 	if (active == 0) return;
 
@@ -162,10 +166,11 @@ void sps_apply(inout SpsInputs o) {
 		#endif
 		o.SPS_STRUCT_SV_VertexID_NAME,
 		#if defined(SPS_STRUCT_COLOR_TYPE_float3)
-			color
+			color,
 		#else
-			o.SPS_STRUCT_COLOR_NAME
+			o.SPS_STRUCT_COLOR_NAME,
 		#endif
+		o.uv1 // Zaytha's SPS Tweaks adds the second uv channel (0 index) for Vertex Aniamtion Textures
 	);
 	//#endif
 
