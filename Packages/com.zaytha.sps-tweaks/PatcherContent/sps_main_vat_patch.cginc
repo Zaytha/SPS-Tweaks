@@ -17,11 +17,11 @@ void sps_apply_real(inout float3 vertex, inout float3 normal, inout float4 tange
 	float active;
 	SpsGetBakedPosition(vertexId, bakedVertex, bakedNormal, bakedTangent, active);
 
-    // Zaytha's SPS Tweaks
-	// SpsPatcher.cs makes sure to only use this file one VAT shaders that are setup to recieve this call
-	applyVertexAnimationTexture_real(bakedVertex, bakedNormal, bakedTangent, uv, worldLength);
-
 	if (active == 0) return;
+
+	// VAT Patch
+	// SpsPatcher.cs makes sure to only use this file with VAT shaders that are setup to recieve this call
+	applyVertexAnimationTexture(bakedVertex, bakedNormal, bakedTangent, uv, worldLength);
 
 	float3 rootPos;
 	int type = SPS_TYPE_INVALID;
@@ -170,7 +170,7 @@ void sps_apply(inout SpsInputs o) {
 		#else
 			o.SPS_STRUCT_COLOR_NAME,
 		#endif
-		o.uv1 // Zaytha's SPS Tweaks adds the second uv channel (0 index) for Vertex Aniamtion Textures
+		o.uv1 // VAT Patch. Pass in the second uv (0 indexed) for VATS to read
 	);
 	//#endif
 

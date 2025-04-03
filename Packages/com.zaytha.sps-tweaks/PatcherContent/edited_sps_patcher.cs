@@ -53,7 +53,6 @@ namespace VF.Builder.Haptics {
             public int patchedPrograms;
         }
         private static PatchResult PatchUnsafe(Shader shader, bool keepImports, string parentHash = null) {
-            
             var testMat = new Material(shader);
             VrcfObjectFactory.Register(testMat);
             for (int i = 0; i < testMat.passCount; i++) {
@@ -93,9 +92,9 @@ namespace VF.Builder.Haptics {
             }
 
             string spsMain;
-            if (shader.name.Contains("VertexAnimationTexture")) {
-                // Sepcial case for shdaers with VATs support, some shaders w/o support would opperate noramlly, but some would fail to compile
-                // if they don't have a second uv channel, so only use the patch for the VAT shaders
+            if (shader.name.Contains("VertexAnimationTexture")) { 
+                // VAT Patch - Sepcial case for shdaers with VATs support
+                // If they're setup for VATs, use the pathced sps_main, otherise use the default file
                 if (keepImports) {
                     spsMain = $"#include \"{pathToSps}/sps_main_vat_patch.cginc\"";
                 } else {
@@ -108,7 +107,6 @@ namespace VF.Builder.Haptics {
                     spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main.cginc");
                 }
             }
-            
             
             var md5 = MD5.Create();
             var hashContent = contents + spsMain + HashBuster;
