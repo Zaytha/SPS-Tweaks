@@ -24,7 +24,8 @@ namespace VF.Builder.Haptics {
                 PatchUnsafe(mat, keepImports);
                 mat.renderQueue = renderQueue;
             } catch(SpsErrorMatException e) {
-                var msg = $"Your avatar is using a material ({mat.name}) that couldn't load properly.\n\n" +
+                var msg = $"DO NOT REPORT THIS ERROR TO VRCFURY!\n\n" +
+                          $"Your avatar is using a material ({mat.name}) that couldn't load properly.\n\n" +
                           $"The shader used by this material may be broken or out of date in your project. Ask the creator of this asset what shader and version should be used.";
                 if (e.Message != null) {
                     msg += "\n\n" + e.Message;
@@ -32,7 +33,10 @@ namespace VF.Builder.Haptics {
                 throw new SneakyException(msg);
             } catch (Exception e) {
                 throw new Exception(
-                    "Failed to patch shader with SPS. Report this on the VRCFury discord. Maybe this shader isn't supported yet.\n\n" +
+                    "DO NOT REPORT THIS ERROR TO VRCFURY!!!\n\nFailed to patch shader with SPS and vats.\n-----------------------------------------------\n\n" + 
+                    "Zaytha's SPS Tweaks needs to be updated to the latest version.\n" + 
+                    "If it is on the latest version, sps has been updated and the patcher needs to be fixed to match.\n " + 
+                    "If I'm still alive, I'm working on doing this, so check for updates.\n\nUntil the update is out, you can uninstall Zaytha's SPS Tweaks and the model will still work w/o the added features." +
                     mat.shader.name + "\n\n" + e.Message, e);
             }
         }

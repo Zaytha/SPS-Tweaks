@@ -147,7 +147,10 @@ public class VATSPSPatcher
         {
             EditorUtility.DisplayDialog(
                 "Patch Error", 
-                "DO NOT REPORT THIS ERROR TO VRCFURY!!!\n\nSpsPatcher.cs is not in the expected form and has not been patched.\n-----------------------------------------------\n\nZaytha's SPS Tweaks needs to be updated to the latest version.\nIf it is on the latest version, sps has been updated and the patcher needs to be fixed to match. If I'm still alive, I'm working on doing this, so check for updates.\n\nUntil the update is out, you can uninstall Zaytha's SPS Tweaks and the model will still work w/o the added features.", 
+                "DO NOT REPORT THIS ERROR TO VRCFURY!!!\n\nSpsPatcher.cs is not in the expected form and has not been patched.\n-----------------------------------------------\n\n" + 
+                "Zaytha's SPS Tweaks needs to be updated to the latest version.\n" + 
+                "If it is on the latest version, sps has been updated and the patcher needs to be fixed to match.\n " + 
+                "If I'm still alive, I'm working on doing this, so check for updates.\n\nUntil the update is out, you can uninstall Zaytha's SPS Tweaks and the model will still work w/o the added features.",
                 "OK"
             );
             Debug.LogError("SpsPatcher.cs not in the expected form and has not been patched. Zaytha SPS Tweaks needs to be updated. If it's up to date, the patcher needs to be fixed and will be updated soon.");
