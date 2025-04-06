@@ -91,6 +91,10 @@ public class VATSPSPatcher
         string edited_patcher_content = File.ReadAllText(edited_patcher_file_path);
         string target_patcher_content = File.ReadAllText(target_pathcer_file_path);
 
+        var target_lines = File.ReadAllLines(target_pathcer_file_path).ToList();
+        var expected_lines = File.ReadAllLines(expected_patcher_file_path).ToList();
+
+
 
 
         // Check if Patcher is already patched and return response
@@ -115,11 +119,8 @@ public class VATSPSPatcher
         // I don't know why but sometimes the check doesn't work, even if the files are identical
         // Assuming its something to do with the real file being in a Runtime folder?
         // Manually stepping through each line and comparing the file seems to work
-        else if (target_patcher_content != expected_patcher_content)
+        else if (target_patcher_content != expected_patcher_content && target_lines.Count == expected_lines.Count)
         {
-            var target_lines = File.ReadAllLines(target_pathcer_file_path).ToList();
-            var expected_lines = File.ReadAllLines(expected_patcher_file_path).ToList();
-
             bool do_files_match = true;
 
             Debug.Log("Manual Check");
