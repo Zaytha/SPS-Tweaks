@@ -30,7 +30,7 @@ public class VATSPSPatcher
 
     // Patched Content
     private static string patched_sps_globals = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/sps_globals.cginc";
-    private static string patched_sps_main = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/sps_main.cginc";
+
     private static string patched_sps_props = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/sps_props.cginc";
     private static string patched_SPSConfigurer = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/SpsConfigurer.cs";
     private static string patched_SPSPatcher = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/SpsPatcher.cs";
@@ -38,17 +38,10 @@ public class VATSPSPatcher
     private static string patched_VRCFuryHapticPlugEditor = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/VRCFuryHapticPlugEditor.cs";
     
     // New SPS Vat
+    private static string sps_main_with_vat_path = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/sps_main_with_vats.cginc";
+    private static string target_sps_main_with_vat_path = "Packages/com.vrcfury.vrcfury/SPS/sps_main_with_vats.cginc";
     private static string sps_vat_path = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/sps_vat.cginc";
     private static string target_sps_vat_path = "Packages/com.vrcfury.vrcfury/SPS/sps_vat.cginc";
-
-    // private static string edited_sps_main_file_path = "Packages/com.zaytha.sps-tweaks/PatcherContent/sps_main_vat_patch.cginc"; // copy this file
-    // private static string patched_sps_main_file_path = "Packages/com.vrcfury.vrcfury/SPS/sps_main_vat_patch.cginc"; // to this location
-    // private static string sps_main_folder = "Packages/com.vrcfury.vrcfury/SPS"; // sanity check the folder exists
-
-
-    // private static string expected_patcher_file_path = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_sps_patcher.cs"; // if this file matches the content in target_pathcer_file_path
-    // private static string edited_patcher_file_path = "Packages/com.zaytha.sps-tweaks/PatcherContent/edited_sps_patcher.cs"; // copy the contents of this file
-    // private static string target_pathcer_file_path = "Packages/com.vrcfury.vrcfury/Editor/VF/Builder/Haptics/SpsPatcher.cs"; // to this existing file
 
     [MenuItem("Tools/Zaytha's SPS Tweaks/Patch")]
     public static void RunPatcher()
@@ -70,33 +63,34 @@ public class VATSPSPatcher
     private static void PatchSPS()
     {
 
-        // Build arrays of target, expected, and patched content
+        // Build array of all files to make sure everything exists as it should before patching
         string[] target_content_path = {
             target_sps_globals,
-            target_sps_main,
             target_sps_props,
             target_SPSConfigurer,
             target_SPSPatcher,
             target_VRCFuryHapticPlug,
-            target_VRCFuryHapticPlugEditor
+            target_VRCFuryHapticPlugEditor,
+            target_sps_main
         };
         string[] expected_content_path = {
             expected_sps_globals,
-            expected_sps_main,
             expected_sps_props,
             expected_SPSConfigurer,
             expected_SPSPatcher,
             expected_VRCFuryHapticPlug,
-            expected_VRCFuryHapticPlugEditor
+            expected_VRCFuryHapticPlugEditor,
+            expected_sps_main
         };
         string[] patched_content_path = {
             patched_sps_globals,
-            patched_sps_main,
             patched_sps_props,
             patched_SPSConfigurer,
             patched_SPSPatcher,
             patched_VRCFuryHapticPlug,
-            patched_VRCFuryHapticPlugEditor
+            patched_VRCFuryHapticPlugEditor,
+            sps_main_with_vat_path,
+            sps_vat_path
         };
 
         // Error check each array to make sure the files exist
@@ -128,22 +122,44 @@ public class VATSPSPatcher
             }
         }
 
+        // Remove the *_sps_main from target and expected content paths as those won't be patched
+        target_content_path = target_content_path.Take(target_content_path.Length - 1).ToArray();
+        expected_content_path = expected_content_path.Take(expected_content_path.Length - 1).ToArray();
+        // sps_main_with_vat_path and sps_vat_path as they are handled separately
+        patched_content_path = patched_content_path.Take(patched_content_path.Length - 2).ToArray();
+        
+
         // Check to see if the target content is already patched
+        // Assume its already pathces, and check if its not
+        bool is_already_patched = true;
         for (int i = 0; i < target_content_path.Length; i++)
         {
             string target_content = File.ReadAllText(target_content_path[i]);
             string patched_content = File.ReadAllText(patched_content_path[i]);
 
-            if (NormalizeContent(target_content) == NormalizeContent(patched_content))
+            if (NormalizeContent(target_content) != NormalizeContent(patched_content))
             {
-                EditorUtility.DisplayDialog(
-                    "Zaytha SPS Tweaks", 
-                    "SPS is already patched.", 
-                    "Got it."
-                );
-                Debug.Log("SPS is already patched.");
-                return;
+                is_already_patched = false;
+                break;
             }
+        }
+
+        // check if sps vat and sps main with vat exist in the target location
+        if (!File.Exists(target_sps_vat_path) || !File.Exists(target_sps_main_with_vat_path))
+        {
+            is_already_patched = false;
+        }
+
+        // Skip patching if its already patched
+        if (is_already_patched)
+        {
+            EditorUtility.DisplayDialog(
+                "Zaytha SPS Tweaks", 
+                "SPS is already patched.", 
+                "Got it."
+            );
+            Debug.Log("SPS is already patched.");
+            return;
         }
         
         // check target content versus expected content and throw error if theres a mismatch
@@ -191,6 +207,11 @@ public class VATSPSPatcher
             string sps_vat_content = File.ReadAllText(sps_vat_path);
             File.WriteAllText(target_sps_vat_path, sps_vat_content);
             Debug.Log("Patched: " + target_sps_vat_path);
+
+            // Patch in sps main with vats
+            string sps_main_with_vat_content = File.ReadAllText(sps_main_with_vat_path);
+            File.WriteAllText(target_sps_main_with_vat_path, sps_main_with_vat_content);
+            Debug.Log("Patched: " + target_sps_main_with_vat_path);
 
             // Refresh Unity to apply changes
             AssetDatabase.Refresh(); 

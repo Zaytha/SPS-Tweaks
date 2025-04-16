@@ -95,11 +95,25 @@ namespace VF.Builder.Haptics {
                 contents = GetRegex(@"\n\s+CustomEditor [^\n]+").Replace(contents, "");
             }
 
+            // check if there's a second uv channel
+            bool hasMultipleUVChannels = false;
+            if (contents.Contains("TEXCOORD1") || contents.Contains("TEXCOORD2")) {
+                hasMultipleUVChannels = true;
+            }
+
             string spsMain;
-            if (keepImports) {
-                spsMain = $"#include \"{pathToSps}/sps_main.cginc\"";
-            } else {
-                spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main.cginc");
+            if (hasMultipleUVChannels) { // If there's a second uv channle, use the vat version
+                if (keepImports) {
+                    spsMain = $"#include \"{pathToSps}/sps_main_with_vats.cginc\"";
+                } else {
+                    spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main_with_vats.cginc");
+                }
+            } else { // if not, vats won't work
+                if (keepImports) { 
+                    spsMain = $"#include \"{pathToSps}/sps_main.cginc\"";
+                } else {
+                    spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main.cginc");
+                }
             }
             
             var md5 = MD5.Create();
