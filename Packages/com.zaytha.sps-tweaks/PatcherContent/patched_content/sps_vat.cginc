@@ -54,6 +54,9 @@ void sps_vertex_animation_texture(inout float3 vertex, inout float3 normal, inou
 
     // apply the offset to mesh
 
+    // Compare the length of the mesh in game after root scaling (baked) to the length of the cock for VATs (local)
+    float object_scale = _SPS_BakedLength / _SPS_LocalLength;
+
     // step function for conditonals,
     // 0 if false, 1 if true, using the modified houdini exporter, static points uv's are on the left side and should be ignored
     float static_point_conditional = step(0.0001, uv.x);
@@ -63,7 +66,7 @@ void sps_vertex_animation_texture(inout float3 vertex, inout float3 normal, inou
     {
         if (static_point_conditional) // only effect points that aren't static in the baked animation
         {
-            vertex += pos_offset.xyz;
+            vertex += pos_offset.xyz * object_scale;
             normal = normalize(normal_offset);
             tangent = normalize(tangent_offset);
         }
@@ -84,7 +87,7 @@ void sps_vertex_animation_texture(inout float3 vertex, inout float3 normal, inou
 
         if (static_point_conditional) // only effect points that aren't static in the baked animation
         {
-            vertex += lerp_pos;
+            vertex += lerp_pos * object_scale;
             normal = normalize(lerp_normal);
             tangent = normalize(lerp_tangent);
         }
