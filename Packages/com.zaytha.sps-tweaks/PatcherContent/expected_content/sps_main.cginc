@@ -29,10 +29,6 @@ void sps_apply_real(inout float3 vertex, inout float3 normal, inout float3 tange
 #endif
 
 	bakedVertex *= (_SPS_Length / _SPS_BakedLength);
-
-	// VAT Patch
-	// SpsPatcher.cs makes sure to only use this file with VAT shaders that are setup to recieve this call
-	applyVertexAnimationTexture(bakedVertex, bakedNormal, bakedTangent, all.uv1, _SPS_Length);
 	
 	if (active == 0) return;
 

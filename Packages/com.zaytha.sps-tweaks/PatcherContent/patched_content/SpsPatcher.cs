@@ -26,14 +26,14 @@ namespace VF.Builder.Haptics {
             } catch(SpsErrorMatException e) {
                 var msg = $"DO NOT REPORT THIS ERROR TO VRCFURY!\n\n" +
                           $"Your avatar is using a material ({mat.name}) that couldn't load properly.\n\n" +
-                          $"The shader used by this material may be broken or out of date in your project. Ask the creator of this asset what shader and version should be used.";
+                          $"The shader used by this material may be broken or out of date in your project. Make sure your material has a second uv channle (standard won't work!).";
                 if (e.Message != null) {
                     msg += "\n\n" + e.Message;
                 }
                 throw new SneakyException(msg);
             } catch (Exception e) {
                 throw new Exception(
-                    "DO NOT REPORT THIS ERROR TO VRCFURY!!!\n\nFailed to patch shader with SPS and vats.\n-----------------------------------------------\n\n" + 
+                     "DO NOT REPORT THIS ERROR TO VRCFURY!!!\n\nFailed to patch shader with SPS and vats.\n-----------------------------------------------\n\n" + 
                     "Zaytha's SPS Tweaks needs to be updated to the latest version.\n" + 
                     "If it is on the latest version, sps has been updated and the patcher needs to be fixed to match.\n " + 
                     "If I'm still alive, I'm working on doing this, so check for updates.\n\nUntil the update is out, you can uninstall Zaytha's SPS Tweaks and the model will still work w/o the added features." +
@@ -96,20 +96,10 @@ namespace VF.Builder.Haptics {
             }
 
             string spsMain;
-            if (shader.name.Contains("VertexAnimationTexture")) { 
-                // VAT Patch - Sepcial case for shdaers with VATs support
-                // If they're setup for VATs, use the pathced sps_main, otherise use the default file
-                if (keepImports) {
-                    spsMain = $"#include \"{pathToSps}/sps_main_vat_patch.cginc\"";
-                } else {
-                    spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main_vat_patch.cginc");
-                }
+            if (keepImports) {
+                spsMain = $"#include \"{pathToSps}/sps_main.cginc\"";
             } else {
-                if (keepImports) {
-                    spsMain = $"#include \"{pathToSps}/sps_main.cginc\"";
-                } else {
-                    spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main.cginc");
-                }
+                spsMain = ReadAndFlattenPath($"{pathToSps}/sps_main.cginc");
             }
             
             var md5 = MD5.Create();
