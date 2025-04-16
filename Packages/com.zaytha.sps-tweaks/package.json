@@ -1,7 +1,7 @@
 {
   "name": "com.zaytha.sps-tweaks",
   "displayName": "Zaytha's SPS Tweaks",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "unity": "2022.3",
   "description": "Adds VATs to SPS",
   "vrchatVersion": "2022.1.1",

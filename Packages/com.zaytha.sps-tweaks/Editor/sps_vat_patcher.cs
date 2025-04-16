@@ -202,6 +202,8 @@ public class VATSPSPatcher
         }
     }
 
+    // Was having issues where content was matching even though when checked by hand it was fine
+    // So sanity check make this nice for computers to read :)
     private static string NormalizeContent(string content)
     {
         // Normalize line endings to unix
