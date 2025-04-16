@@ -67,6 +67,4 @@ Assets/PackageMakerWindowData.asset*
 /Assets/
 /ProjectSettings/
 /UserSettings/
-/Packages/com.vrchat.core.bootstrap/
-/Packages/com.vrchat.core.vpm-resolver/
-/Packages/com.vrchat.demo-template/
+/Packages/com.vrchat*
