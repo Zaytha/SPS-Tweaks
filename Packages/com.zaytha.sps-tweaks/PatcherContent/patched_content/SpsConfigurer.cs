@@ -78,6 +78,12 @@ namespace VF.Builder.Haptics {
             m.SetFloat(SpsVATFrameCount, plug.vatFrameCount);
             m.SetFloat(SpsVATAnimMin, plug.vatAnimMin);
             m.SetFloat(SpsVATAnimMax, plug.vatAnimMax);
+
+            // enableVat will be true by deafult for patched assets to always load the new data
+            // this disabled it if no textures is supplied in the case of someone setting up a normal penetrator while the patch is applied
+            if (plug.vatPosTexture?.Get() == null && plug.vatRotTexture?.Get() == null){
+                m.SetFloat(SpsVATEnabled, 0);
+            }
         }
 
         public static bool IsSps(Material mat) {

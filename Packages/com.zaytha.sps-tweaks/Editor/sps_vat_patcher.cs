@@ -194,7 +194,7 @@ public class VATSPSPatcher
 
             // Refresh Unity to apply changes
             AssetDatabase.Refresh(); 
-            Debug.Log("SpsPatcher.cs patched.");
+            Debug.Log("SPS patched.");
         }
         else
         {

@@ -189,7 +189,10 @@ namespace VF.Inspector {
             container.Add(VRCFuryEditorUtils.RefreshOnChange(() => {
                 var c = new VisualElement();
                 if (enableVat.boolValue) {
-                    var vatBox = VRCFuryEditorUtils.Section("Vertex Animation Textures");
+                    var vatBox = VRCFuryEditorUtils.Section("Vertex Animation Textures",
+                                                             "This needs to be defaulted on for patched assets.\n" +
+                                                             "It will be disabled if you do not supply a position or rotation texture. " + 
+                                                             "If you're not using this, you can safely disable the 'Enable Vertex Animation Textures' checkbox");
                     c.Add(vatBox);
                     vatBox.Add(VRCFuryEditorUtils.BetterProp(serializedObject.FindProperty("vatInterpolate"),"Interpolate"));
                     vatBox.Add(VRCFuryEditorUtils.BetterProp(serializedObject.FindProperty("vatPlaybackSpeed"), "Playback speed"));

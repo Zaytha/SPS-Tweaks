@@ -35,7 +35,7 @@ namespace VF.Component {
         public List<VRCFuryHapticSocket.DepthActionNew> depthActions2 = new List<VRCFuryHapticSocket.DepthActionNew>();
         public bool useHipAvoidance = true;
 
-        public bool enableVat = false;
+        public bool enableVat = true;
         public bool vatInterpolate = true;
         public float vatPlaybackSpeed = 1;
         public GuidTexture2d vatPosTexture = null;
