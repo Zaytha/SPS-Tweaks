@@ -206,10 +206,8 @@ public class VATSPSPatcher
     {
         // Normalize line endings to unix
         content = content.Replace("\r\n", "\n").Replace("\r", "\n");
-
         // Trim whitespace from each line
         content = string.Join("\n", content.Split('\n').Select(line => line.Trim()));
-
         // Remove BOM if present
         return content.TrimStart('\uFEFF');
     }
