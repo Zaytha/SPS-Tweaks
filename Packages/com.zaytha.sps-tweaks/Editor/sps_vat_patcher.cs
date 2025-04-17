@@ -7,35 +7,32 @@ using System.Linq;
 [InitializeOnLoad]
 public class VATSPSPatcher
 {
-    // private static string target_script_path = "Packages/com.vrcfury.vrcfury/SPS/sps_main.cginc"; 
-    // private static string expected_sps_path = "Packages/com.zaytha.sps-tweaks/Editor/expected_sps_main.cginc";
-
     // Target Content
     private static string target_sps_globals = "Packages/com.vrcfury.vrcfury/SPS/sps_globals.cginc";
-    private static string target_sps_main = "Packages/com.vrcfury.vrcfury/SPS/sps_main.cginc";
     private static string target_sps_props = "Packages/com.vrcfury.vrcfury/SPS/sps_props.cginc";
     private static string target_SPSConfigurer = "Packages/com.vrcfury.vrcfury/Editor/VF/Builder/Haptics/SpsConfigurer.cs";
     private static string target_SPSPatcher = "Packages/com.vrcfury.vrcfury/Editor/VF/Builder/Haptics/SpsPatcher.cs";
     private static string target_VRCFuryHapticPlug = "Packages/com.vrcfury.vrcfury/Runtime/VF/Component/VRCFuryHapticPlug.cs";
     private static string target_VRCFuryHapticPlugEditor = "Packages/com.vrcfury.vrcfury/Editor/VF/Inspector/VRCFuryHapticPlugEditor.cs";
+    private static string target_sps_main = "Packages/com.vrcfury.vrcfury/SPS/sps_main.cginc";
 
     // Expected Content
     private static string expected_sps_globals = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/sps_globals.cginc";
-    private static string expected_sps_main = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/sps_main.cginc";
     private static string expected_sps_props = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/sps_props.cginc";
     private static string expected_SPSConfigurer = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/SpsConfigurer.cs";
     private static string expected_SPSPatcher = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/SpsPatcher.cs";
     private static string expected_VRCFuryHapticPlug = "Packages/com.vrcfury.vrcfury/Runtime/VF/Component/VRCFuryHapticPlug.cs";
     private static string expected_VRCFuryHapticPlugEditor = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/VRCFuryHapticPlugEditor.cs";
+    private static string expected_sps_main = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/sps_main.cginc";
 
     // Patched Content
     private static string patched_sps_globals = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/sps_globals.cginc";
-
     private static string patched_sps_props = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/sps_props.cginc";
     private static string patched_SPSConfigurer = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/SpsConfigurer.cs";
     private static string patched_SPSPatcher = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/SpsPatcher.cs";
     private static string patched_VRCFuryHapticPlug = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/VRCFuryHapticPlug.cs";
     private static string patched_VRCFuryHapticPlugEditor = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/VRCFuryHapticPlugEditor.cs";
+    // no patched_sps_main as we're passing in the vat_patch as an option
     
     // New SPS Vat
     private static string sps_main_with_vat_path = "Packages/com.zaytha.sps-tweaks/PatcherContent/patched_content/sps_main_with_vats.cginc";
@@ -122,17 +119,17 @@ public class VATSPSPatcher
             }
         }
 
-        // Remove the *_sps_main from target and expected content paths as those won't be patched
-        target_content_path = target_content_path.Take(target_content_path.Length - 1).ToArray();
-        expected_content_path = expected_content_path.Take(expected_content_path.Length - 1).ToArray();
-        // sps_main_with_vat_path and sps_vat_path as they are handled separately
-        patched_content_path = patched_content_path.Take(patched_content_path.Length - 2).ToArray();
+        // // Remove the *_sps_main from target and expected content paths as those won't be patched
+        // target_content_path = target_content_path.Take(target_content_path.Length - 1).ToArray();
+        // expected_content_path = expected_content_path.Take(expected_content_path.Length - 1).ToArray();
+        // // sps_main_with_vat_path and sps_vat_path as they are handled separately
+        // patched_content_path = patched_content_path.Take(patched_content_path.Length - 2).ToArray();
         
 
         // Check to see if the target content is already patched
         // Assume its already pathces, and check if its not
         bool is_already_patched = true;
-        for (int i = 0; i < target_content_path.Length; i++)
+        for (int i = 0; i < target_content_path.Length - 1; i++) // subtract -1 so we don't check target_sps_main
         {
             string target_content = File.ReadAllText(target_content_path[i]);
             string patched_content = File.ReadAllText(patched_content_path[i]);
