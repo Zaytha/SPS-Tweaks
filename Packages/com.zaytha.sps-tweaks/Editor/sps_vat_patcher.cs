@@ -119,13 +119,6 @@ public class VATSPSPatcher
             }
         }
 
-        // // Remove the *_sps_main from target and expected content paths as those won't be patched
-        // target_content_path = target_content_path.Take(target_content_path.Length - 1).ToArray();
-        // expected_content_path = expected_content_path.Take(expected_content_path.Length - 1).ToArray();
-        // // sps_main_with_vat_path and sps_vat_path as they are handled separately
-        // patched_content_path = patched_content_path.Take(patched_content_path.Length - 2).ToArray();
-        
-
         // Check to see if the target content is already patched
         // Assume its already pathces, and check if its not
         bool is_already_patched = true;

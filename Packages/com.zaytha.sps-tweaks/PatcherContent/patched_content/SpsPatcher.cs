@@ -95,6 +95,7 @@ namespace VF.Builder.Haptics {
                 contents = GetRegex(@"\n\s+CustomEditor [^\n]+").Replace(contents, "");
             }
 
+            // Cursed fix fore the sps patcher. Use the patched version only if there's a second uv channel
             // check if there's a second uv channel
             bool hasMultipleUVChannels = false;
             if (contents.Contains("TEXCOORD1") || contents.Contains("TEXCOORD2")) {

@@ -18,7 +18,6 @@ namespace VF.Builder.Haptics {
         private const string SpsVATEnabled = "_SPS_VAT_Enabled";
         private const string SPSLocalLength = "_SPS_LocalLength";
         private const string SpsVATInterpolate = "_SPS_VAT_Interpolate";
-        private const string SpsVATPlaybackSpeed = "_SPS_VAT_PlaybackSpeed";
         private const string SpsVATPosTexture = "_SPS_VAT_PosTexture";
         private const string SpsVATRotTexture = "_SPS_VAT_RotTexture";
         private const string SpsVATFPS = "_SPS_VAT_FPS";
@@ -71,7 +70,6 @@ namespace VF.Builder.Haptics {
             m.SetFloat(SpsVATEnabled, plug.enableVat ? 1 : 0);
             m.SetFloat(SPSLocalLength, plug.length);
             m.SetFloat(SpsVATInterpolate, plug.vatInterpolate ? 1 : 0);
-            m.SetFloat(SpsVATPlaybackSpeed, plug.vatPlaybackSpeed);
             m.SetTexture(SpsVATPosTexture, MakeReadable(plug.vatPosTexture?.Get(), "Vat Pos Texture"));
             m.SetTexture(SpsVATRotTexture, MakeReadable(plug.vatRotTexture?.Get(), "Vat Rot Texture"));
             m.SetFloat(SpsVATFPS, plug.vatFPS);

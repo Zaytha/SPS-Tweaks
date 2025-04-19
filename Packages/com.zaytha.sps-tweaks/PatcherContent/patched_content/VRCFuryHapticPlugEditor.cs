@@ -195,7 +195,6 @@ namespace VF.Inspector {
                                                              "If you're not using this, you can safely disable the 'Enable Vertex Animation Textures' checkbox");
                     c.Add(vatBox);
                     vatBox.Add(VRCFuryEditorUtils.BetterProp(serializedObject.FindProperty("vatInterpolate"),"Interpolate"));
-                    vatBox.Add(VRCFuryEditorUtils.BetterProp(serializedObject.FindProperty("vatPlaybackSpeed"), "Playback speed"));
                     vatBox.Add(VRCFuryEditorUtils.BetterProp(serializedObject.FindProperty("vatPosTexture"), "Position Texture"));
                     vatBox.Add(VRCFuryEditorUtils.BetterProp(serializedObject.FindProperty("vatRotTexture"), "Rotatoin Texture"));
                     vatBox.Add(VRCFuryEditorUtils.BetterProp(serializedObject.FindProperty("vatFPS"), "FPS"));

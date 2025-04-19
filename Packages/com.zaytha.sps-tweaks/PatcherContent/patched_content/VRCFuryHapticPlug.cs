@@ -37,7 +37,6 @@ namespace VF.Component {
 
         public bool enableVat = true;
         public bool vatInterpolate = true;
-        public float vatPlaybackSpeed = 1;
         public GuidTexture2d vatPosTexture = null;
         public GuidTexture2d vatRotTexture = null;
         public float vatFPS = 24;

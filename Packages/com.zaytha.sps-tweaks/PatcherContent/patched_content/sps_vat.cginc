@@ -76,7 +76,7 @@ void sps_vertex_animation_texture(inout float3 vertex, inout float3 normal, inou
     else
     {
         float interpolation_alpha = 0;
-        interpolation_alpha = pen_amt * (_SPS_VAT_FrameCount);
+        interpolation_alpha = pen_amt * (_SPS_VAT_FrameCount - 1);
 
         // find the fractional value for the lerp amount
         interpolation_alpha = frac(interpolation_alpha);

@@ -30,7 +30,6 @@ _SPS_Plus_Hole("_SPS_Plus_Hole", Float) = 0
 _SPS_VAT_Enabled("_SPS_VAT_Enable", Float) = 0
 _SPS_LocalLength("_SPS_LocalLength", Float) = 0
 _SPS_VAT_Interpolate("_SPS_VAT_Interpoalte", Float) = 0
-_SPS_VAT_PlaybackSpeed("_SPS_VAT_PlaybackSpeed", Float) = 0
 _SPS_VAT_PosTexture("PosTexture", 2D) = "white" {}
 _SPS_VAT_RotTexture("RotTexture", 2D) = "white" {}
 _SPS_VAT_FPS("_SPS_VAT_FPS", Float) = 0
