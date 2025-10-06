@@ -775,11 +775,8 @@ namespace VF.Builder.Haptics {
                     throw new Exception("Failed to find source for post-processed shader: " + path);
                 }
             } else {
-                StreamReader sr = new StreamReader(path);
-                try {
+                using (var sr = new StreamReader(path)) {
                     content = sr.ReadToEnd();
-                } finally {
-                    sr.Close();
                 }
             }
 
@@ -789,11 +786,8 @@ namespace VF.Builder.Haptics {
         }
         
         private static void WriteFile(string path, string content) {
-            StreamWriter sw = new StreamWriter(path);
-            try {
+            using (var sw = new StreamWriter(path)) {
                 sw.Write(content);
-            } finally {
-                sw.Close();
             }
         }
     }
