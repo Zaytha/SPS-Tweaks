@@ -21,6 +21,21 @@ using VRC.SDKBase.Validation.Performance;
 namespace VF.Inspector {
     [CustomEditor(typeof(VRCFuryHapticPlug), true)]
     internal class VRCFuryHapticPlugEditor : VRCFuryComponentEditor<VRCFuryHapticPlug> {
+        private static string GetOscId(VRCFuryHapticPlug plug) {
+            return HapticUtils.GetPreferredId(
+                plug,
+                p => p.name,
+                p => {
+                    var renderers = GetRenderers(p);
+                    if (renderers.Count > 0) {
+                        return HapticUtils.GetFallbackId(renderers.First().owner());
+                    }
+
+                    return HapticUtils.GetFallbackId(p.owner());
+                }
+            );
+        }
+
         protected override VisualElement CreateEditor(SerializedObject serializedObject, VRCFuryHapticPlug target) {
             var container = new VisualElement();
             var configureTps = serializedObject.FindProperty("configureTps");
@@ -33,8 +48,6 @@ namespace VF.Inspector {
                 " with rigged meshes, you should put the SPS Plug inside the bone nearest the 'base'!");
             boneWarning.SetVisible(false);
             container.Add(boneWarning);
-
-            container.Add(VRCFuryEditorUtils.BetterProp(serializedObject.FindProperty("name"), "Name in connected apps"));
 
             var sizeSection = VRCFuryEditorUtils.Section("Size and Masking");
             container.Add(sizeSection);
@@ -181,7 +194,16 @@ namespace VF.Inspector {
                 })
             ));
 
-            container.Add(GetHapticsSection());
+            container.Add(GetOgbHapticsSection(haptics => {
+                haptics.Add(SpsEditorUtils.AutoHapticIdProp(
+                    serializedObject.FindProperty("name"),
+                    "ID sent to OGB",
+                    target,
+                    target.owner(),
+                    avatar => avatar.GetComponentsInSelfAndChildren<VRCFuryHapticPlug>(),
+                    GetOscId
+                ));
+            }));
 
             var adv = new Foldout {
                 text = "Advanced Plug Options",
@@ -198,13 +220,27 @@ namespace VF.Inspector {
             return container;
         }
 
-        public static VisualElement GetHapticsSection() {
-            if (HapticsToggleMenuItem.Get()) {
-                return VRCFuryEditorUtils.Section("Haptics", "OGB haptic support is enabled on this plug by default");
+        public static VisualElement GetOgbHapticsSection(Action<VisualElement> buildBody) {
+            var container = new VisualElement();
+            var hapticsEnabled = HapticsToggleMenuItem.Get();
+            var hapticsEnabledToggle = new Toggle();
+            hapticsEnabledToggle.SetValueWithoutNotify(hapticsEnabled);
+            hapticsEnabledToggle.SetEnabled(false);
+            container.Add(VRCFuryEditorUtils.BetterProp(
+                null,
+                "Enable OGB Haptics",
+                fieldOverride: hapticsEnabledToggle
+            ));
+
+            if (hapticsEnabled) {
+                var haptics = VRCFuryEditorUtils.Section("OGB Haptics");
+                buildBody(haptics);
+                container.Add(haptics);
+            } else {
+                container.Add(VRCFuryEditorUtils.Error("Haptics have been disabled in the VRCFury unity settings"));
             }
-            var el = VRCFuryEditorUtils.Section("Haptics");
-            el.Add(VRCFuryEditorUtils.Error("Haptics have been disabled in the VRCFury unity settings"));
-            return el;
+
+            return container;
         }
 
         public static VisualElement ConstraintWarning(UnityEngine.Component c, bool isSocket = false) {
@@ -555,14 +591,7 @@ namespace VF.Inspector {
                 }
             }
 
-            var name = plug.name;
-            if (string.IsNullOrWhiteSpace(name)) {
-                if (renderers.Count > 0) {
-                    name = HapticUtils.GetName(rendererResults.First().renderer.owner());
-                } else {
-                    name = HapticUtils.GetName(plug.owner());
-                }
-            }
+            var oscId = GetOscId(plug);
 
             return new BakeResult {
                 bakeRoot = localSpace,
@@ -570,7 +599,7 @@ namespace VF.Inspector {
                 renderers = rendererResults,
                 worldLength = worldLength,
                 worldRadius = worldRadius,
-                name = name,
+                oscId = oscId,
             };
         }
 
@@ -580,7 +609,7 @@ namespace VF.Inspector {
             public ICollection<RendererResult> renderers;
             public float worldLength;
             public float worldRadius;
-            public string name;
+            public string oscId;
         }
 
         public class RendererResult {
