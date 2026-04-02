@@ -10,10 +10,10 @@ public class VATSPSPatcher
     // Target Content
     private static string target_sps_globals = "Packages/com.vrcfury.vrcfury/SPS/sps_globals.cginc";
     private static string target_sps_props = "Packages/com.vrcfury.vrcfury/SPS/sps_props.cginc";
-    private static string target_SPSConfigurer = "Packages/com.vrcfury.vrcfury/Editor/VF/Builder/Haptics/SpsConfigurer.cs";
-    private static string target_SPSPatcher = "Packages/com.vrcfury.vrcfury/Editor/VF/Builder/Haptics/SpsPatcher.cs";
-    private static string target_VRCFuryHapticPlug = "Packages/com.vrcfury.vrcfury/Runtime/VF/Component/VRCFuryHapticPlug.cs";
-    private static string target_VRCFuryHapticPlugEditor = "Packages/com.vrcfury.vrcfury/Editor/VF/Inspector/VRCFuryHapticPlugEditor.cs";
+    private static string target_SPSConfigurer = "Packages/com.vrcfury.vrcfury/Editor-Common/Builder/Haptics/SpsConfigurer.cs";
+    private static string target_SPSPatcher = "Packages/com.vrcfury.vrcfury/Editor-Common/Builder/Haptics/SpsPatcher.cs";
+    private static string target_VRCFuryHapticPlug = "Packages/com.vrcfury.vrcfury/Runtime/Component/VRCFuryHapticPlug.cs";
+    private static string target_VRCFuryHapticPlugEditor = "Packages/com.vrcfury.vrcfury/Editor-Common/Inspector/VRCFuryHapticPlugEditor.cs";
     private static string target_sps_main = "Packages/com.vrcfury.vrcfury/SPS/sps_main.cginc";
 
     // Expected Content
@@ -21,7 +21,7 @@ public class VATSPSPatcher
     private static string expected_sps_props = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/sps_props.cginc";
     private static string expected_SPSConfigurer = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/SpsConfigurer.cs";
     private static string expected_SPSPatcher = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/SpsPatcher.cs";
-    private static string expected_VRCFuryHapticPlug = "Packages/com.vrcfury.vrcfury/Runtime/VF/Component/VRCFuryHapticPlug.cs";
+    private static string expected_VRCFuryHapticPlug = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/VRCFuryHapticPlug.cs";
     private static string expected_VRCFuryHapticPlugEditor = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/VRCFuryHapticPlugEditor.cs";
     private static string expected_sps_main = "Packages/com.zaytha.sps-tweaks/PatcherContent/expected_content/sps_main.cginc";
 

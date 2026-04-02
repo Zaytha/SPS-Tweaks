@@ -4,19 +4,15 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.UIElements;
 using VF.Builder;
-using VF.Builder.Exceptions;
 using VF.Builder.Haptics;
 using VF.Component;
+using VF.Exceptions;
 using VF.Menu;
 using VF.Service;
 using VF.Utils;
-using VRC.Dynamics;
-using VRC.SDKBase.Validation.Performance;
 
 namespace VF.Inspector {
     [CustomEditor(typeof(VRCFuryHapticPlug), true)]
@@ -244,9 +240,12 @@ namespace VF.Inspector {
             return container;
         }
 
+        public static Func<bool> getHapticsEnabled;
         public static VisualElement GetOgbHapticsSection(Action<VisualElement> buildBody) {
             var container = new VisualElement();
-            var hapticsEnabled = HapticsToggleMenuItem.Get();
+            if (getHapticsEnabled == null) return container;
+
+            var hapticsEnabled = getHapticsEnabled();
             var hapticsEnabledToggle = new Toggle();
             hapticsEnabledToggle.SetValueWithoutNotify(hapticsEnabled);
             hapticsEnabledToggle.SetEnabled(false);
@@ -256,13 +255,12 @@ namespace VF.Inspector {
                 fieldOverride: hapticsEnabledToggle
             ));
 
-            if (hapticsEnabled) {
-                var haptics = VRCFuryEditorUtils.Section("OGB Haptics");
-                buildBody(haptics);
-                container.Add(haptics);
-            } else {
-                container.Add(VRCFuryEditorUtils.Error("Haptics have been disabled in the VRCFury unity settings"));
+            var haptics = VRCFuryEditorUtils.Section("OGB Haptics");
+            if (!hapticsEnabled) {
+                haptics.Add(VRCFuryEditorUtils.Error("Haptics have been disabled in the VRCFury unity settings"));
             }
+            buildBody(haptics);
+            container.Add(haptics);
 
             return container;
         }
@@ -276,26 +274,23 @@ namespace VF.Inspector {
                 var lightPaths = new List<string>();
                 var tipLightPaths = new List<string>();
                 var orificeLightPaths = new List<string>();
-                var avatar = VRCAvatarUtils.GuessAvatarObject(c);
-                if (avatar != null) {
-                    foreach (var light in avatar.GetComponentsInSelfAndChildren<Light>()) {
-                        if (light.type != LightType.Point && light.type != LightType.Spot) continue;
-                        var path = light.owner().GetPath(avatar, true);
-                        var type = VRCFuryHapticSocketEditor.GetLegacyDpsLightType(light);
-                        if (type == VRCFuryHapticSocketEditor.LegacyDpsLightType.Tip)
-                            tipLightPaths.Add(path);
-                        else if (type == VRCFuryHapticSocketEditor.LegacyDpsLightType.Hole ||
-                                 type == VRCFuryHapticSocketEditor.LegacyDpsLightType.Ring ||
-                                 type == VRCFuryHapticSocketEditor.LegacyDpsLightType.Front)
-                            orificeLightPaths.Add(path);
-                        else
-                            lightPaths.Add(path);
-                    }
-                    foreach (var renderer in avatar.GetComponentsInSelfAndChildren<Renderer>()) {
-                        foreach (var m in renderer.sharedMaterials) {
-                            if (DpsConfigurer.IsDps(m) || TpsConfigurer.IsTps(m)) {
-                                legacyRendererPaths.Add($"{m.name} in {renderer.owner().GetPath(avatar)}");
-                            }
+                foreach (var light in c.owner().GetComponentsInUploadRoot<Light>()) {
+                    if (light.type != LightType.Point && light.type != LightType.Spot) continue;
+                    var path = light.owner().GetPath();
+                    var type = VRCFuryHapticSocketEditor.GetLegacyDpsLightType(light);
+                    if (type == VRCFuryHapticSocketEditor.LegacyDpsLightType.Tip)
+                        tipLightPaths.Add(path);
+                    else if (type == VRCFuryHapticSocketEditor.LegacyDpsLightType.Hole ||
+                             type == VRCFuryHapticSocketEditor.LegacyDpsLightType.Ring ||
+                             type == VRCFuryHapticSocketEditor.LegacyDpsLightType.Front)
+                        orificeLightPaths.Add(path);
+                    else
+                        lightPaths.Add(path);
+                }
+                foreach (var renderer in c.owner().GetComponentsInUploadRoot<Renderer>()) {
+                    foreach (var m in renderer.sharedMaterials) {
+                        if (DpsConfigurer.IsDps(m) || TpsConfigurer.IsTps(m)) {
+                            legacyRendererPaths.Add($"{m.name} in {renderer.owner().GetPath()}");
                         }
                     }
                 }
@@ -455,12 +450,11 @@ namespace VF.Inspector {
         [CanBeNull]
         public static BakeResult Bake(
             VRCFuryHapticPlug plug,
-            HapticContactsService hapticContactsService,
             Dictionary<VFGameObject, VRCFuryHapticPlug> usedRenderers = null,
             bool deferMaterialConfig = false
         ) {
             var transform = plug.owner();
-            if (!HapticUtils.AssertValidScale(transform, "plug", shouldThrow: !plug.sendersOnly)) {
+            if (!HapticUtils.AssertValidScale(transform, "plug", shouldThrow: !plug.fromSpsForAll)) {
                 return null;
             }
 
@@ -499,21 +493,21 @@ namespace VF.Inspector {
             // Senders
             var halfWay = Vector3.forward * (worldLength / 2);
             var senders = GameObjects.Create("Senders", localSpace);
-            hapticContactsService.AddSender(new HapticContactsService.SenderRequest() {
+            HapticSenderFactory.AddSender(new HapticSenderFactory.SenderRequest() {
                 obj = senders,
                 objName = "Length",
                 radius = worldLength,
                 tags = new [] { HapticUtils.CONTACT_PEN_MAIN },
                 useHipAvoidance = plug.useHipAvoidance
             });
-            hapticContactsService.AddSender(new HapticContactsService.SenderRequest() {
+            HapticSenderFactory.AddSender(new HapticSenderFactory.SenderRequest() {
                 obj = senders,
                 objName = "WidthHelper",
                 radius = Mathf.Max(0.01f, worldLength - worldRadius*2),
                 tags = new [] { HapticUtils.CONTACT_PEN_WIDTH },
                 useHipAvoidance = plug.useHipAvoidance
             });
-            hapticContactsService.AddSender(new HapticContactsService.SenderRequest() {
+            HapticSenderFactory.AddSender(new HapticSenderFactory.SenderRequest() {
                 obj = senders,
                 pos = halfWay,
                 objName = "Envelope",
@@ -523,7 +517,7 @@ namespace VF.Inspector {
                 height = worldLength,
                 useHipAvoidance = plug.useHipAvoidance
             });
-            hapticContactsService.AddSender(new HapticContactsService.SenderRequest() {
+            HapticSenderFactory.AddSender(new HapticSenderFactory.SenderRequest() {
                 obj = worldSpace,
                 objName = "Sender - Root",
                 radius = 0.01f,
